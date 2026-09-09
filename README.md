@@ -16,14 +16,8 @@ uv sync
 # Renderizar la presentación
 uv run python -m manim_slides render main.py presentation
 
-# Renderizar rápido (borrador, para ir probando)
-uv run python -m manim_slides render -ql main.py presentation
-
 # Presentar
 uv run python -m manim_slides present presentation
-
-# Exportar a un HTML autocontenido
-uv run python -m manim_slides convert presentation salida.html
 ```
 
 ## Bibliografía
