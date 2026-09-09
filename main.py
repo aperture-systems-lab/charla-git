@@ -1,18 +1,3 @@
-"""Git y GitHub — orquestador delgado de la charla.
-
-El estilo vive en ``estilo.py``, las fábricas de mobjects en ``componentes.py``,
-los helpers de animación en ``animaciones.py`` y cada diapositiva en su archivo
-dentro de ``diapositivas/``. Las diapositivas se agrupan en mixins temáticos
-(``Slides*``) que aportan los métodos ``slide_*`` invocados desde ``construct``.
-
-Desde la raíz del proyecto:
-
-    Renderizar:   uv run python -m manim_slides render main.py presentation
-    Borrador:     uv run python -m manim_slides render -ql main.py presentation
-    Presentar:    uv run python -m manim_slides present presentation
-    Exportar:     uv run python -m manim_slides convert presentation salida.html
-"""
-
 from manim import ManimColor
 from manim_slides import Slide
 
