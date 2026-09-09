@@ -1,0 +1,10 @@
+[project]
+name = "charla-git"
+version = "0.1.0"
+description = "Charla del Semillero Aperture: Git y GitHub — presentación animada con Manim Slides."
+requires-python = ">=3.13"
+dependencies = [
+    "manim>=0.18",
+    "manim-slides[pyqt6]>=5.1",
+    "numpy>=1.26",
+]
