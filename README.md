@@ -1,4 +1,4 @@
-# Git y GitHub — Semillero Aperture
+# Git y GitHub 
 
 Presentación animada de la charla **Una introducció a Git y GitHub** hecha en manim.
 
@@ -56,5 +56,3 @@ uv run python -m manim_slides present presentation
 ### Datos y encuestas
 
 - *Developer Survey 2022 — Version control*. Stack Overflow. https://survey.stackoverflow.co/2022/#technology-version-control
-
-"# charla-git" 
