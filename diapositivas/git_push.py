@@ -45,7 +45,7 @@ PIEZAS = (
     ("origin", "a qué remoto lo mandas", OK),
     ("main", "qué rama subes", RAMA_MAIN),
 )
-X_PIEZA, X_QUE_ES = -5.6, -3.9
+X_PIEZA, X_QUE_ES = -4.8, -3.1
 Y_PIEZAS = 0.85
 PASO_PIEZA = 0.95
 TAM_QUE_ES = 17

@@ -19,7 +19,6 @@ from componentes import grafo_decorativo, logo_esquina
 from . import (
     cerrar_rama,
     cierre,
-    comandos_remotos,
     configuracion,
     conventional_commits,
     conflictos,
@@ -27,11 +26,17 @@ from . import (
     era_ia,
     flujos_de_trabajo,
     fork_y_pr,
+    git_amend,
     git_checkout,
+    git_clone,
     git_diff,
+    git_fetch,
     git_ignore,
     git_init,
+    git_pull,
+    git_push,
     git_reflog,
+    git_remote,
     git_reset,
     git_revert,
     historia,
@@ -149,6 +154,7 @@ class SlidesLocal:
     slide_git_reset = _slide(git_reset.construir)
     slide_git_checkout = _slide(git_checkout.construir)
     slide_git_revert = _slide(git_revert.construir)
+    slide_git_amend = _slide(git_amend.construir)
     slide_git_reflog = _slide(git_reflog.construir)
 
 
@@ -161,7 +167,11 @@ class SlidesRamas:
 
 class SlidesRemoto:
     slide_local_remoto = _slide(local_remoto.construir)
-    slide_comandos_remotos = _slide(comandos_remotos.construir)
+    slide_git_remote = _slide(git_remote.construir)
+    slide_git_push = _slide(git_push.construir)
+    slide_git_clone = _slide(git_clone.construir)
+    slide_git_fetch = _slide(git_fetch.construir)
+    slide_git_pull = _slide(git_pull.construir)
     slide_fork_y_pr = _slide(fork_y_pr.construir)
 
 

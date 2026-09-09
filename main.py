@@ -50,18 +50,25 @@ class presentation(
         # self.slide_git_checkout()
         # self.slide_git_reset()
         # self.slide_git_revert()
+        # self.slide_git_amend()
         # self.slide_git_reflog()
         # self.slide_ramas()
         # self.slide_merge()
         # self.slide_rebase_y_cherry()
         # self.slide_cerrar_rama()
         # self.slide_local_remoto()
+
+        self.slide_git_remote()
+        self.slide_git_push()
+        self.slide_git_clone()
+        self.slide_git_fetch()
+        self.slide_git_pull()
+
         # self.slide_fork_y_pr()
         # self.slide_flujos_de_trabajo()
         # self.slide_siguientes_pasos()
         # self.slide_cierre()
 
-        # self.slide_git_diff() 
-        # self.slide_conflictos() 
-        # self.slide_comandos_remotos()
+        self.slide_git_diff() 
+        self.slide_conflictos() 
                 

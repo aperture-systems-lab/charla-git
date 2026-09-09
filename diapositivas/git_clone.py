@@ -6,8 +6,8 @@ existe —el de la asignatura, el del semillero, el de una librería— y lo que
 quieres es tenerlo.
 
 Lo que hay que ver: ``clone`` **no es descargar un zip**. Hace de un tirón lo
-que en las dos diapositivas anteriores costó dos comandos y crea la carpeta de
-paso: baja el proyecto con todo su historial —los commits de los demás, con
+que en las dos diapositivas anteriores costó dos comandos, y crea la carpeta
+de paso: baja el proyecto con todo su historial —los commits de los demás, con
 sus mensajes y sus fechas— y deja el remoto ya apuntado como ``origin``. Por
 eso los tres vistos de abajo, que son justo las tres cosas que uno ya no tiene
 que hacer.
@@ -42,24 +42,35 @@ SESION = (
 TAM_SESION = 14
 POS_SESION = [-3.55, 0.75, 0]
 
-# (línea, tamaño, color)
-CUANDO = (
+# (línea, tamaño, color). Dos bloques separados: para qué sirve clone y, en
+# gris, el camino de las dos diapositivas anteriores.
+MOTIVO = (
     ("clone es para empezar", 21, RAMA_MAIN),
     ("cuando el repositorio ya existe", 17, CLARO),
     ("y tú aún no lo tienes", 17, CLARO),
+)
+CONTRARIO = (
     ("init + remote add es para", 17, SECUNDARIO),
     ("el camino contrario", 17, SECUNDARIO),
 )
 X_CUANDO = -0.55
 Y_CUANDO = 0.85
-BUFF_CUANDO = 0.3
+BUFF_LINEA = 0.3
+BUFF_BLOQUE = 0.62
 
 TRAE = ("la carpeta, ya creada", "todo el historial", "origin ya enlazado")
-Y_TRAE = -2.2
+Y_TRAE = -2.05
 BUFF_TRAE = 0.75
 TAM_TRAE = 17
 
 REMATE = "no hace falta git init: lo que clonas ya es un repositorio"
+
+
+def _bloque(lineas):
+    """Un bloque de la columna derecha, alineado a la izquierda."""
+    return VGroup(*[
+        texto(linea, tam, color=color) for linea, tam, color in lineas
+    ]).arrange(DOWN, buff=BUFF_LINEA, aligned_edge=LEFT)
 
 
 def _traido(que):
@@ -73,9 +84,9 @@ def construir(scene):
     encabezado = hacer_titulo(TITULO)
     consola = terminal(SESION, tam=TAM_SESION).move_to(POS_SESION)
 
-    cuando = VGroup(*[
-        texto(linea, tam, color=color) for linea, tam, color in CUANDO
-    ]).arrange(DOWN, buff=BUFF_CUANDO, aligned_edge=LEFT)
+    motivo, contrario = _bloque(MOTIVO), _bloque(CONTRARIO)
+    cuando = VGroup(motivo, contrario).arrange(
+        DOWN, buff=BUFF_BLOQUE, aligned_edge=LEFT)
     cuando.move_to([X_CUANDO, Y_CUANDO, 0], LEFT)
 
     trae = VGroup(*[_traido(t) for t in TRAE])
@@ -88,9 +99,10 @@ def construir(scene):
     scene.play(FadeIn(consola[0]), run_time=0.5)
     teclear(scene, consola, ritmo=0.3)
     scene.play(
-        LaggedStart(*[FadeIn(t, shift=RIGHT * 0.12) for t in cuando],
+        LaggedStart(*[FadeIn(t, shift=RIGHT * 0.12)
+                      for t in (*motivo, *contrario)],
                     lag_ratio=0.25),
-        run_time=1.3,
+        run_time=1.4,
     )
     scene.play(
         LaggedStart(*[FadeIn(t, shift=UP * 0.12) for t in trae],

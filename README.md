@@ -22,10 +22,6 @@ uv run python -m manim_slides present presentation
 
 ## Bibliografía
 
-### Especificaciones
-
-- *Conventional Commits 1.0.0*. conventionalcommits.org. https://www.conventionalcommits.org/es/v1.0.0/ 
-
 ### Artículos
 
 - Driessen, V. (2010). *A successful Git branching model*. nvie.com. https://nvie.com/posts/a-successful-git-branching-model/ 
@@ -33,6 +29,8 @@ uv run python -m manim_slides present presentation
 - *How to use Git for data science*. DagsHub. https://dagshub.com/blog/how-to-use-git-for-data-science/
 - *Git flow for data science*. DagsHub. https://dagshub.com/blog/git-flow-for-data-science/
 - *Linux statistics*. SQ Magazine. https://sqmagazine.co.uk/linux-statistics/ 
+- *Conventional Commits 1.0.0*. conventionalcommits.org. https://www.conventionalcommits.org/es/v1.0.0/ 
+
 
 ### Vídeos
 

@@ -19,8 +19,8 @@ mismo— y de ahí sale que se pueda trabajar sin internet y que si mañana cerr
 GitHub el proyecto siguiera vivo en dos portátiles.
 
 Los dos comandos salen a secas, sin desmenuzar: aquí solo hacen de rótulo del
-viaje. Lo que hace cada uno, con sus banderas y sus vueltas, es de
-``comandos_remotos``.
+viaje. Lo que hace cada uno, con sus banderas y sus vueltas, viene en las
+cinco diapositivas siguientes, una por comando.
 """
 
 import numpy as np
