@@ -1,4 +1,4 @@
-# La práctica
+# Ejercicio Práctico
 
 Resuelve un reto de [Deep-ML](https://www.deep-ml.com/problems) y súbelo a este
 repositorio con un **fork** y un **pull request**. 
