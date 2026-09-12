@@ -1,6 +1,6 @@
-# Git y GitHub 
+# Git y GitHub
 
-Presentación animada de la charla **Una introducció a Git y GitHub** hecha en manim.
+Charla **Una introducción a Git y GitHub** hecha en manim, con su parte práctica.
 
 ## Requisitos
 
@@ -10,15 +10,23 @@ Presentación animada de la charla **Una introducció a Git y GitHub** hecha en 
 ## Uso
 
 ```bash
-# Instalación de librerías
-uv sync
+# --- La presentación ---
+cd presentacion
+uv sync                                                        # instalar su entorno
 
-# Renderizar la presentación
-uv run python -m manim_slides render main.py presentation
+uv run python -m manim_slides render main.py presentation      # renderizar
+uv run python -m manim_slides present presentation             # presentar
 
-# Presentar
-uv run python -m manim_slides present presentation
+# --- La parte práctica ---
+cd practica
+uv sync                                                        # instalar su entorno
 ```
+
+## La práctica
+
+Después de la charla viene la parte práctica: 
+
+Resuelve un reto de [Deep-ML](https://www.deep-ml.com/problems) y aporta **a este mismo repositorio** con un fork y un pull request. El enunciado paso a paso está en [`practica/README.md`](practica/README.md).
 
 ## Bibliografía
 
@@ -54,3 +62,7 @@ uv run python -m manim_slides present presentation
 ### Datos y encuestas
 
 - *Developer Survey 2022 — Version control*. Stack Overflow. https://survey.stackoverflow.co/2022/#technology-version-control
+
+### Retos
+
+- *Practice Problems*. Deep-ML. https://www.deep-ml.com/problems
