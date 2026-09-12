@@ -103,4 +103,5 @@ Con esto habrías acabado el ejercicio práctico
 - El pull request va de tu rama hacia el `main` del original, no al revés.
 - El pull request solo toca archivos dentro de tu carpeta.
 - Los commits están realizados usando buenas prácticas
+- Si realizas más de un repo deben estar en la misma rama pero cada uno de los retos en un commit distinto.
 
