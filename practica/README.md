@@ -1,9 +1,10 @@
 # La práctica
 
 Resuelve un reto de [Deep-ML](https://www.deep-ml.com/problems) y súbelo a este
-repositorio con un **fork** y un **pull request**.
+repositorio con un **fork** y un **pull request**. 
+>Lee cuidadosamente las instrucciones
 
-## Qué entregas
+## Intrucciones y ejemplo de entrega
 
 Un solo archivo, dentro de una carpeta con tu nombre de usuario:
 
@@ -39,36 +40,60 @@ como se vio en la charla.
 feat(retos): solucion de JeroHoyos a matrix-vector-dot-product
 ```
 
-## Cómo se hace
+Ahora veremos cómo se realiza adecuadamente el merge 
+
+## El merge
+
+Antes de hacer el PR, realiza un merge a tu rama en la rama main usando:
+
+```bash
+git merge --no-ff <tu-usuario>
+```
+
+Sin `--no-ff` git haría un *fast-forward* y la rama desaparecería del grafo, como si nunca hubiera existido. 
+
+Te debería salir así
+
+```
+git log --oneline --graph --all
+
+*   cd60689 (HEAD -> main) Merge branch '<tu-usuario>'
+|\
+| * 12e237c (<tu-usuario>) feat(retos): solucion de <tu-usuario> a <nombre-del-reto>
+|/
+* 3f6b057 (origin/main) commit anterior
+```
+
+**¿Se abrió un editor raro?** 
+
+Es Vim parchate, git lo abre para que escribas el mensaje del commit de merge, y ya viene con `Merge branch '<tu-usuario>'` puesto. Solo hay que guardar y salir: pulsa `Esc`, escribe `:wq` y dale `Enter`.
+
+
+## Esquema
 
 Con lo que viste en la charla ya tienes todo para hacer el recorrido completo:
 
 ```
-   Deep-ML                     resuelves el reto y pasan los tests
+   Deep-ML                     
         |
         |  solución lista
         v
-   el original                 aperture-systems-lab/charla-git
+   el original                
         |
         |  fork
         v
-   tu fork                     tu-usuario/charla-git
+   Creas la rama y añades tu solución
         |
-        |  clone
-        v
-   tu computador               rama -> archivo con tu solución -> commit
-        |
-        |  push
+        |  merge
         v
    tu fork
         |
         |  pull request
         v
-   el original                 tu solución queda propuesta
+   el original                          
 ```
 
-Ahí termina el ejercicio práctico: tu código ya está propuesto al repositorio
-original y solo falta que se revise.
+Con esto habrías acabado el ejercicio práctico
 
 ## Condiciones para aprobar el pull request
 
@@ -78,3 +103,4 @@ original y solo falta que se revise.
 - El pull request va de tu rama hacia el `main` del original, no al revés.
 - El pull request solo toca archivos dentro de tu carpeta.
 - Los commits están realizados usando buenas prácticas
+
