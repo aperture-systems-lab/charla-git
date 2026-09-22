@@ -1,0 +1,651 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{sansmath}
+\usepackage[scaled=0.95,varqu,mono]{inconsolata}
+\usepackage{microtype}
+\usepackage{etoolbox}
+\usepackage[a4paper,left=1.15cm,right=1.15cm,top=1.8cm,bottom=1.4cm,
+  headheight=20pt,headsep=0.3cm,footskip=0.65cm]{geometry}
+\usepackage{parskip}
+\linespread{1.10}\selectfont
+\usepackage[table]{xcolor}
+\usepackage{amssymb}
+\sansmath
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{ragged2e}
+\usepackage{pifont}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit}
+\usepackage[skins]{tcolorbox}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{fontawesome5}
+
+\definecolor{signal}{HTML}{29C5D6}
+\definecolor{primary}{HTML}{1A7E89}
+\definecolor{ink}{HTML}{0D1117}
+\definecolor{gold}{HTML}{E2A54A}
+\definecolor{violet}{HTML}{B48CEB}
+\definecolor{mint}{HTML}{43D9A3}
+\definecolor{alert}{HTML}{E06C75}
+\definecolor{codecomment}{HTML}{8A8A8A}
+
+\colorlet{codebg}{black!3}
+\colorlet{okc}{mint!50!black}
+\colorlet{errc}{alert!80!black}
+\colorlet{stgc}{gold!70!black}
+\colorlet{featc}{violet!65!black}
+\colorlet{wdc}{black!55}
+
+\newcommand{\docTitle}{Git y GitHub}
+\newcommand{\docSubtitle}{Cheat sheet}
+\newcommand{\docAuthor}{Grupo Aperture}
+\newcommand{\headerLeft}{Git y GitHub}
+\newcommand{\socialInstagram}{@aperture.systems}
+\newcommand{\socialInstagramURL}{https://instagram.com/aperture.systems}
+
+\setlength{\parskip}{3.5pt plus 1pt}
+\setlength{\columnsep}{0.6cm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{primary!18}}
+\setlength{\multicolsep}{4pt}
+\raggedcolumns
+
+\setlist{itemsep=3pt, topsep=4pt, parsep=0pt}
+
+\newlist{topics}{itemize}{2}
+\setlist[topics]{
+  label=\textcolor{signal!70!primary}{\scriptsize\raisebox{0.12em}{$\blacktriangleright$}},
+  leftmargin=1.2em, itemsep=2.5pt, topsep=3pt, parsep=0pt}
+
+\newlist{pasos}{enumerate}{1}
+\setlist[pasos]{
+  label=\textcolor{primary}{\bfseries\ttfamily\arabic*},
+  leftmargin=1.2em, itemsep=2.5pt, topsep=3pt, parsep=0pt}
+
+\renewcommand{\arraystretch}{1.34}
+\setlength{\tabcolsep}{3pt}
+\newcommand{\thead}[1]{\textcolor{white}{\bfseries #1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newenvironment{cheat}[1][0.42\linewidth]
+  {\par\vspace{1pt}\noindent\footnotesize
+   \rowcolors{1}{primary!6}{white}%
+   \tabularx{\linewidth}{@{\hspace{3pt}}P{#1}@{\hspace{6pt}}L@{\hspace{3pt}}}}
+  {\endtabularx\par\vspace{2pt}}
+
+\lstdefinelanguage{gitsh}{
+  morekeywords={git},
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]",
+}
+
+\lstset{
+  language=gitsh,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\scriptsize\color{black!85},
+  keywordstyle=\bfseries\color{primary},
+  commentstyle=\color{codecomment},
+  stringstyle=\color{black!60},
+  numbers=none,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  upquote=true,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{signal}{$\hookrightarrow$}\space},
+  tabsize=2,
+  frame=leftline,
+  framerule=1.2pt,
+  rulecolor=\color{primary},
+  framesep=6pt,
+  xleftmargin=8pt,
+  aboveskip=3pt,
+  belowskip=3pt,
+  moredelim=[il][\color{black!55}]{@>},
+  moredelim=[il][\color{okc}]{@+},
+  moredelim=[il][\color{errc}]{@-},
+  moredelim=[il][\color{stgc}]{@~},
+  moredelim=[il][\color{featc}]{@*},
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+           {ñ}{{\~n}}1 {¿}{{\textquestiondown}}1 {…}{{...}}3
+           {→}{{$\rightarrow$}}1 {ª}{{\textordfeminine}}1
+           {¡}{{\textexclamdown}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Ó}{{\'O}}1
+}
+
+\lstnewenvironment{term}[1][]
+  {\endgraf\addvspace{3pt}\noindent\minipage{\linewidth}\lstset{aboveskip=0pt,belowskip=0pt,#1}}
+  {\endminipage\endgraf\addvspace{3pt}}
+
+\newcommand{\codecolor}{primary!80!black}
+\newcommand{\code}[1]{\leavevmode{\ttfamily\hyphenchar\font=-1\relax
+  \color{\codecolor}\detokenize{#1}}}
+\newcommand{\codeok}[1]{{\renewcommand{\codecolor}{okc}\code{#1}}}
+\newcommand{\codeerr}[1]{{\renewcommand{\codecolor}{errc}\code{#1}}}
+
+\DisableLigatures{encoding = *, family = tt*}
+
+\newcommand{\si}{\textcolor{okc}{\ding{51}}}
+\newcommand{\no}{\textcolor{errc}{\ding{55}}}
+\newcommand{\swatch}[1]{\textcolor{#1}{\rule[-0.15ex]{1.3ex}{1.3ex}}}
+\newcommand{\flecha}{\,\textcolor{signal!70!primary}{$\rightarrow$}\,}
+
+\titleformat{\section}
+  {\fontsize{11.5}{13}\selectfont\bfseries\color{primary}}
+  {\texttt{\textcolor{signal!70!primary}{\$}}~\thesection}{0.5em}{}
+  [\vspace{-4pt}{\color{signal!40}\titlerule[0.6pt]}]
+\titlespacing*{\section}{0pt}{9pt plus 2pt}{4pt}
+
+\titleformat{name=\subsection,numberless}
+  {\normalsize\bfseries\color{primary!88!black}}
+  {}{0pt}{\textcolor{signal!60!primary}{\scriptsize\raisebox{0.18em}{$\blacktriangleright$}}\hspace{0.4em}}
+\titlespacing*{\subsection}{0pt}{7pt plus 2pt}{2.5pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{signal!55!primary}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\color{primary}\bfseries\ttfamily\small \textcolor{signal!70!primary}{\$}\ \headerLeft}
+\fancyhead[R]{\ttfamily\footnotesize\color{primary!60!black} aperture \textcolor{black!35}{//} cheat sheet}
+\fancyfoot[C]{\ttfamily\small\color{primary} [\,\thepage\,/\,\pageref{ultima}\,]}
+
+\tcbset{
+  aperturebox/.style={
+    enhanced, sharp corners, arc=0pt,
+    boxrule=0pt, leftrule=3pt,
+    left=7pt, right=7pt, top=4pt, bottom=4pt,
+    before skip=4pt, after skip=4pt, halign=left,
+    fontupper=\small
+  }
+}
+
+\newtcolorbox[auto counter]{definition}[1][]{
+  aperturebox, colback=primary!6, colframe=primary,
+  before upper={\textbf{\color{primary}Definici\'on}%
+    \notblank{#1}{ \textcolor{primary!70!black}{\normalfont(#1)}}{}.\hspace{0.5em}}}
+
+\newtcolorbox{infobox}[1][Info]{
+  aperturebox, colback=violet!6, colframe=violet!70!black,
+  before upper={\textbf{\color{violet!45!black}\texttt{//}\ #1}\par\smallskip}}
+
+\newtcolorbox{tip}[1][]{
+  aperturebox, colback=mint!8, colframe=mint!60!black,
+  before upper={\textbf{\color{mint!40!black}\texttt{//}\ %
+    \notblank{#1}{#1}{Tip.}}\hspace{0.5em}}}
+
+\newtcolorbox{note}[1][]{
+  aperturebox, colback=primary!4, colframe=primary!60!white,
+  leftrule=2pt,
+  before upper={\textbf{\color{primary}\texttt{//}\ %
+    \notblank{#1}{#1.}{Nota.}}\hspace{0.5em}}}
+
+\newtcolorbox{peligro}[1][Cuidado]{
+  aperturebox, colback=alert!7, colframe=alert!85!black,
+  before upper={\textbf{\color{errc}\texttt{//}\ #1.}\hspace{0.5em}}}
+
+\newcommand{\stat}[3]{%
+  \begin{tcolorbox}[aperturebox, colback=#1!7, colframe=#1, nobeforeafter,
+    top=3pt, bottom=3pt, left=6pt, right=4pt, fontupper=\scriptsize]
+  {\fontsize{16}{17}\selectfont\bfseries\color{#1!70!black}#2}\par\vspace{1pt}#3
+  \end{tcolorbox}}
+
+\tikzset{
+  cm/.style={circle, fill=#1, draw=white, line width=0.7pt,
+    minimum size=8pt, inner sep=0pt},
+  cm/.default=primary,
+  tramo/.style={line width=1.5pt, draw=#1},
+  tag/.style={rounded corners=1.5pt, fill=#1!14, draw=#1, line width=0.5pt,
+    font=\ttfamily\scriptsize\bfseries, text=#1!60!black, inner sep=1.5pt},
+  zona/.style={draw=#1, line width=0.9pt, fill=#1!9, rounded corners=2pt,
+    minimum width=2.15cm, minimum height=0.95cm, align=center,
+    font=\scriptsize\bfseries, text=#1!55!black},
+  paso/.style={-{Stealth[length=5pt]}, line width=1pt, draw=#1},
+  rotulo/.style={font=\ttfamily\scriptsize\bfseries, text=#1!60!black},
+}
+
+\newcommand{\hudframe}{%
+  \begin{scope}[signal!50!ink, line width=1.3pt]
+    \draw ([xshift=1.7cm,yshift=-3.1cm]current page.north west) -- ++(0,1.3) -- ++(1.3,0);
+    \draw ([xshift=-1.7cm,yshift=-3.1cm]current page.north east) -- ++(0,1.3) -- ++(-1.3,0);
+    \draw ([xshift=1.7cm,yshift=3.1cm]current page.south west) -- ++(0,-1.3) -- ++(1.3,0);
+    \draw ([xshift=-1.7cm,yshift=3.1cm]current page.south east) -- ++(0,-1.3) -- ++(-1.3,0);
+  \end{scope}}
+
+\newcommand{\hudbrackets}[1]{%
+  \begin{scope}[signal, line width=1.3pt]
+    \draw ([xshift=-3pt,yshift=-9pt]#1.north west) -- ++(0,12pt) -- ++(12pt,0);
+    \draw ([xshift=3pt,yshift=-9pt]#1.north east) -- ++(0,12pt) -- ++(-12pt,0);
+    \draw ([xshift=-3pt,yshift=9pt]#1.south west) -- ++(0,-12pt) -- ++(12pt,0);
+    \draw ([xshift=3pt,yshift=9pt]#1.south east) -- ++(0,-12pt) -- ++(-12pt,0);
+  \end{scope}}
+
+\newcommand{\huddivider}[2]{%
+  \draw[signal!55!ink, line width=0.9pt]
+       ([xshift=-4.2cm,yshift=#1]#2) -- ([xshift=-0.45cm,yshift=#1]#2);
+  \draw[signal!55!ink, line width=0.9pt]
+       ([xshift=0.45cm,yshift=#1]#2) -- ([xshift=4.2cm,yshift=#1]#2);
+  \node[text=gold] at ([yshift=#1]#2) {\footnotesize$\blacklozenge$};}
+
+\newcommand{\apertureLogo}[2]{%
+  \IfFileExists{aperture-cyan.png}%
+    {\node at (#2) {\includegraphics[width=#1]{aperture-cyan.png}};}%
+    {\node[text=signal, inner sep=0pt] (aplogo) at (#2)
+        {\resizebox{#1}{!}{\bfseries\ttfamily aperture}};
+     \draw[signal, line width=2.2pt]
+        ([xshift=-0.25cm,yshift=-0.55cm]aplogo.south west)
+        .. controls ([xshift=-1cm,yshift=-0.9cm]aplogo.south)
+                and ([xshift=1cm,yshift=-0.9cm]aplogo.south)
+        .. ([xshift=0.25cm,yshift=-0.55cm]aplogo.south east);}}
+
+\newcommand{\apertureInline}[2]{%
+  \IfFileExists{aperture-cyan.png}%
+    {\includegraphics[height=#1]{aperture-cyan.png}}%
+    {\begin{tikzpicture}[baseline=(aplg.base)]
+      \node[text=#2, inner sep=0pt] (aplg)
+        {\resizebox{!}{0.42\dimexpr#1\relax}{\bfseries\ttfamily aperture}};
+      \draw[signal, line width=1.1pt]
+        ([xshift=-0.06cm,yshift=-0.14cm]aplg.south west)
+        .. controls ([xshift=-0.28cm,yshift=-0.27cm]aplg.south)
+                and ([xshift=0.28cm,yshift=-0.27cm]aplg.south)
+        .. ([xshift=0.06cm,yshift=-0.14cm]aplg.south east);
+    \end{tikzpicture}}}
+
+\newcommand{\backcover}{%
+  \clearpage
+  \thispagestyle{empty}
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[ink] (current page.north west) rectangle (current page.south east);
+    \hudframe
+
+    \node[text=white, align=flush center, text width=\dimexpr\paperwidth-6cm\relax]
+         at ([yshift=-6.2cm]current page.north)
+         {\fontsize{30}{36}\selectfont\bfseries ¡Esperamos que te haya resultado \textcolor{signal}{\'util}!};
+
+    \apertureLogo{7.5cm}{[yshift=1.6cm]current page.center}
+
+    \huddivider{11.9cm}{current page.south}
+
+    \node[text=white, align=flush center, text width=\dimexpr\paperwidth-6cm\relax]
+         at ([yshift=9.5cm]current page.south)
+         {\fontsize{26}{32}\selectfont\bfseries ¡No olvides \textcolor{signal}{seguirnos} para m\'as!};
+
+    \node[fill=signal!8!ink, inner xsep=22pt, inner ysep=14pt] (ig)
+         at ([yshift=6.7cm]current page.south)
+         {\fontsize{26}{30}\selectfont\ttfamily\bfseries
+          \textcolor{signal}{\faInstagram}\hspace{0.5em}%
+          \href{\socialInstagramURL}{\textcolor{white}{\socialInstagram}}};
+    \hudbrackets{ig}
+  \end{tikzpicture}
+  \null}
+
+\usepackage[colorlinks=true,linkcolor=primary,urlcolor=primary,citecolor=primary,bookmarksnumbered]{hyperref}
+\hypersetup{
+  pdftitle={\docTitle: \docSubtitle},
+  pdfauthor={\docAuthor},
+  pdfsubject={\docSubtitle}
+}
+\urlstyle{tt}
+
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[ink] (current page.north west) rectangle (current page.south east);
+  \hudframe
+
+  \apertureLogo{7cm}{[yshift=-9.8cm]current page.north}
+
+  \huddivider{-14.2cm}{current page.north}
+
+  \node[text=white, align=flush center, text width=\dimexpr\paperwidth-4cm\relax]
+       at ([yshift=-16.75cm]current page.north)
+       {\fontsize{46}{54}\selectfont\bfseries
+        \textcolor{signal}{Cheat Sheet}\\[0.42em] \docTitle};
+\end{tikzpicture}
+\null
+\end{titlepage}
+
+\pagenumbering{arabic}
+
+\begin{multicols}{2}
+\footnotesize\RaggedRight
+
+\subsection*{Crear un repository}
+\begin{cheat}[0.34\linewidth]
+  \code{git init}        & Crea un repository nuevo \\
+  \code{git clone <url>} & Clona un repository existente \\
+\end{cheat}
+
+\subsection*{Configuración}
+\begin{cheat}[0.5\linewidth]
+  \code{git config --global user.name "..."}          & Nombre del autor de cada commit \\
+  \code{git config --global user.email "..."}         & Correo del autor, el mismo de GitHub \\
+  \code{git config --global init.defaultBranch main}  & Define \code{main} como branch inicial \\
+  \code{git config --list}                            & Muestra la configuración vigente \\
+\end{cheat}
+
+\subsection*{Zonas y flujo de trabajo}
+\begin{center}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  carril/.style={line width=2.2pt, draw=#1},
+  flecha/.style={-{Stealth[length=5pt]}, line width=0.8pt, draw=black!55},
+  punto/.style={circle, fill=black!55, inner sep=0pt, minimum size=3.2pt},
+  cab/.style={font=\bfseries\scriptsize, text=#1!60!black, align=center},
+  cmd/.style={font=\ttfamily\scriptsize, text=black!75, inner sep=1.5pt}]
+
+  \def\xa{0} \def\xb{3.1} \def\xc{6.2} \def\xd{9.3}
+  \def\ytop{0} \def\ybot{-3.45}
+
+  \node[cab=wdc]     at (\xa,0.55) {working\\directory};
+  \node[cab=gold]    at (\xb,0.55) {staging};
+  \node[cab=primary] at (\xc,0.55) {local repository\\\texttt{.git}};
+  \node[cab=mint]    at (\xd,0.55) {remote\\GitHub};
+
+  \draw[carril=wdc]     (\xa,\ytop) -- (\xa,\ybot);
+  \draw[carril=gold]    (\xb,\ytop) -- (\xb,\ybot);
+  \draw[carril=primary] (\xc,\ytop) -- (\xc,\ybot);
+  \draw[carril=mint]    (\xd,\ytop) -- (\xd,\ybot);
+
+  \node[punto] at (\xd,-0.65) {};
+  \draw[flecha] (\xd,-0.65) -- (\xc,-0.65);
+  \node[cmd, below] at (7.75,-0.68) {git clone};
+
+  \node[punto] at (\xc,-1.45) {};
+  \draw[flecha] (\xc,-1.45) -- (\xa,-1.45);
+  \node[cmd, below] at (1.55,-1.48) {git checkout};
+
+  \node[punto] at (\xa,-2.25) {};
+  \draw[flecha] (\xa,-2.25) -- (\xb,-2.25);
+  \node[cmd, below] at (1.55,-2.28) {git add};
+
+  \node[punto] at (\xb,-2.25) {};
+  \draw[flecha] (\xb,-2.25) -- (\xc,-2.25);
+  \node[cmd, below] at (4.65,-2.28) {git commit};
+
+  \node[punto] at (\xc,-2.25) {};
+  \draw[flecha] (\xc,-2.25) -- (\xd,-2.25);
+  \node[cmd, below] at (7.75,-2.28) {git push};
+
+  \node[punto] at (\xd,-3.05) {};
+  \draw[flecha] (\xd,-3.05) -- (\xa,-3.05);
+  \node[cmd, below] at (7.75,-3.08) {git pull};
+\end{tikzpicture}}
+\end{center}
+
+\begin{cheat}[0.42\linewidth]
+  \code{git add <file>}   & Copia el file al staging \\
+  \code{git add .}        & Añade todo el contenido del working directory \\
+  \code{git reset <file>} & Retira el file del staging \\
+  \code{git reset}        & Vacía por completo el staging \\
+  \code{git status}       & Muestra el estado de cada file \\
+\end{cheat}
+
+\subsection*{Hacer commits}
+\begin{cheat}[0.42\linewidth]
+  \code{git commit}        & Abre el editor para redactar el mensaje \\
+  \code{git commit -m "..."} & Crea el commit con el mensaje indicado \\
+\end{cheat}
+
+\subsection*{Trabajo con branches}
+\begin{cheat}[0.55\linewidth]
+  \code{git switch <branch>} \ /\ \code{git checkout <branch>}     & Cambia de branch \\
+  \code{git switch -c <branch>} \ /\ \code{git checkout -b <branch>} & Crea un branch y cambia a él \\
+  \code{git branch}           & Lista los branches existentes \\
+  \code{git branch -d <branch>} & Elimina un branch ya mergeado \\
+  \code{git branch -D <branch>} & Elimina un branch de forma forzada \\
+\end{cheat}
+
+\subsection*{Ver diffs}
+\begin{cheat}[0.4\linewidth]
+  \code{git diff}                  & Working directory frente al staging \\
+  \code{git diff --staged}         & Staging frente al último commit \\
+  \code{git diff <c1> <c2>}        & Diff entre dos commits \\
+  \code{git diff <commit> <file>}  & Un file desde un commit determinado \\
+  \code{git show <commit>}         & Diff de un commit frente a su parent \\
+\end{cheat}
+
+\subsection*{Log del proyecto}
+\begin{cheat}[0.4\linewidth]
+  \code{git log}           & Registro con hash, autor, fecha y mensaje \\
+  \code{git log --oneline} & Un commit por línea \\
+  \code{git log --graph}   & Dibuja el grafo de branches y merges \\
+  \code{git log --all}     & Incluye los commits de todos los branches \\
+  \code{git log <file>}    & Commits que modificaron un file \\
+\end{cheat}
+
+\subsection*{Formas de referirse a un commit}
+\begin{cheat}[0.42\linewidth]
+  Un branch                     & \code{main} \\
+  Un tag                        & \code{v0.1} \\
+  Un identificador de commit    & \code{3e887ab} \\
+  Un remote branch              & \code{origin/main} \\
+  El commit actual              & \code{HEAD} \\
+  Tres commits anteriores       & \code{HEAD~3} o \code{HEAD^^^} \\
+\end{cheat}
+
+\subsection*{Tags}
+\begin{cheat}[0.46\linewidth]
+  \code{git tag}                 & Lista los tags existentes \\
+  \code{git tag v1.0}            & Marca el commit actual \\
+  \code{git tag -a v1.0 -m "..."} & Tag con autor, fecha y mensaje \\
+  \code{git tag v1.0 <hash>}     & Marca un commit anterior \\
+  \code{git push origin v1.0}    & Publica un tag concreto \\
+  \code{git tag -d v1.0}         & Elimina el tag local \\
+\end{cheat}
+
+\subsection*{Descarte de cambios}
+\begin{cheat}[0.5\linewidth]
+  \code{git restore <file>} \ /\ \code{git checkout -- <file>} & Descarta los cambios no añadidos \\
+  \code{git restore --staged --worktree <file>} & Descarta los cambios staged y no staged \\
+  \code{git reset --hard} & Descarta \textcolor{errc}{\bfseries todo} el trabajo sin commitear \\
+  \code{git stash}        & Guarda el trabajo en curso de forma temporal \\
+\end{cheat}
+
+\subsection*{Exclusiones con \texttt{.gitignore}}
+\begin{cheat}[0.3\linewidth]
+  \code{*.csv}       & Cualquier file con extensión \texttt{.csv} \\
+  \code{models/}     & La carpeta completa \\
+  \code{/notas.txt}  & Únicamente el file de la raíz \\
+  \code{**/tmp/}     & En cualquier nivel del árbol \\
+  \codeok{!data/muestra.csv} & Excepción, este file sí se incluye \\
+\end{cheat}
+{\color{black!55}Si el file ya está commiteado, se retira con
+\code{git rm --cached <file>}.}
+
+\subsection*{Reescritura del historial}
+\begin{cheat}[0.42\linewidth]
+  \code{git commit --amend} & Modifica el último commit \\
+  \code{git reflog}         & Recupera commits que quedaron sin branch \\
+\end{cheat}
+
+\subsection*{Elección del comando para deshacer}
+\begin{cheat}[0.55\linewidth]
+  Errata en el último commit aún sin push     & \code{git commit --amend} \\
+  Deshacer commits sin push                   & \code{git reset <flag> HEAD~1} \\
+  Deshacer un commit ya publicado             & \code{git revert <hash>} \\
+  Descartar los cambios de un file            & \code{git restore <file>} \\
+  Recuperar un file de una versión anterior   & \code{git checkout <hash> -- <file>} \\
+  Recuperar commits perdidos                  & \code{git reflog} \\
+\end{cheat}
+
+\subsection*{Merge de branches}
+\begin{center}
+\begin{tikzpicture}[x=0.72cm, y=0.72cm]
+  \node[font=\scriptsize\bfseries, text=primary!70!black] at (1.5,1.55) {Fast-forward};
+  \draw[tramo=primary] (0,0) -- (1,0);
+  \draw[tramo=violet] (1,0) -- (3,0);
+  \node[cm] at (0,0) {}; \node[cm] at (1,0) {};
+  \node[cm=violet] at (2,0) {}; \node[cm=violet] at (3,0) {};
+  \node[tag=primary, opacity=0.35, text opacity=0.5, below=5pt] at (1,0) {main};
+  \node[tag=primary, below=5pt] at (3,0) {main};
+  \draw[-{Stealth[length=4pt]}, primary, line width=0.7pt] (1.6,-0.5) -- (2.4,-0.5);
+  \node[tag=violet, above=5pt] at (3,0) {feature};
+
+  \begin{scope}[xshift=4.4cm]
+    \node[font=\scriptsize\bfseries, text=primary!70!black] at (1.9,1.55) {Merge commit};
+    \draw[tramo=primary] (0,0) -- (2,0) -- (3.9,0);
+    \draw[tramo=violet] (1,0) -- (1.6,0.8) -- (2.8,0.8) -- (3.9,0);
+    \node[cm] at (0,0) {}; \node[cm] at (1,0) {}; \node[cm] at (2,0) {};
+    \node[cm=violet] at (1.6,0.8) {}; \node[cm=violet] at (2.8,0.8) {};
+    \node[cm, draw=mint!70!black, line width=0.9pt] (m) at (3.9,0) {};
+    \node[tag=primary, below=6pt] at (3.9,0) {main};
+    \node[font=\tiny, text=black!60, anchor=west] at (4.15,0.32) {2 parents};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\noindent\begin{minipage}{\linewidth}
+\begin{topics}
+  \item \textbf{Fast-forward} desplaza el branch sin crear un commit.
+  \item \textbf{Merge commit} enlaza dos historias con un commit de dos parents.
+  \item \textbf{Rebase} reaplica los commits y genera hashes nuevos.
+  \item \textbf{Cherry-pick} copia un commit concreto en otro branch.
+  \item \textbf{Squash merge} concentra todos los commits en uno.
+\end{topics}
+\begin{cheat}[0.42\linewidth]
+  \code{git merge <branch>}         & Mergea el branch indicado \\
+  \code{git merge --no-ff <branch>} & Fuerza la creación de un merge commit \\
+  \code{git rebase <branch>}        & Reaplica los commits sobre el otro branch \\
+  \code{git cherry-pick <hash>}     & Copia un único commit \\
+  \code{git merge --squash <branch>} & Prepara el merge en un solo commit \\
+\end{cheat}
+\end{minipage}
+
+\noindent\begin{minipage}{\linewidth}
+\subsection*{Conflictos}
+Se producen cuando dos branches modifican las mismas líneas de un file.
+\begin{term}
+@-<<<<<<< HEAD
+@+    return m
+@>=======
+@*    return round(m, 2)
+@*>>>>>>> redondeo
+\end{term}
+La resolución consiste en editar el file, eliminar los marcadores y
+commitear con \code{git add} y \code{git commit}. El merge se cancela con
+\code{git merge --abort}.
+\end{minipage}
+
+\subsection*{Cerrar un branch}
+\begin{cheat}[0.42\linewidth]
+  \code{git branch --merged}    & Lista los branches ya mergeados \\
+  \code{git branch -d <branch>} & Elimina el branch y conserva los commits \\
+  \code{git branch -D <branch>} & Elimina el branch de forma forzada \\
+\end{cheat}
+
+\subsection*{Remote repository}
+\begin{cheat}[0.4\linewidth]
+  \code{git remote add <name> <url>}  & Enlaza el repository local con GitHub \\
+  \code{git push origin main}         & Hace push de \code{main} al remote \code{origin} \\
+  \code{git push -u origin <branch>}  & Registra el upstream la primera vez \\
+  \code{git push}                     & Hace push al upstream ya registrado \\
+  \code{git push --force-with-lease}  & Reescritura forzada con verificación previa \\
+  \code{git push --tags}              & Hace push de los tags \\
+\end{cheat}
+
+\subsection*{Fetch y pull}
+\begin{cheat}[0.32\linewidth]
+  \code{git fetch origin main} & Descarga sin modificar el branch local \\
+  \code{git pull}              & Equivale a \code{fetch} y \code{merge} \\
+  \code{git pull --rebase}     & Equivale a \code{fetch} y \code{rebase} \\
+\end{cheat}
+
+\noindent\begin{minipage}{\linewidth}
+\subsection*{Fork y pull request}
+\begin{topics}
+  \item \textbf{Fork} crea una copia del repository en la cuenta propia.
+  \item \textbf{Pull request} solicita la incorporación de los cambios.
+\end{topics}
+\end{minipage}
+
+\noindent\begin{minipage}{\linewidth}
+\subsection*{Redacción de mensajes de commit}
+El mensaje es la única parte del commit redactada por el autor y determina la
+legibilidad del historial.
+
+\noindent{\footnotesize
+\rowcolors{1}{primary!6}{white}%
+\begin{tabularx}{\linewidth}{@{\hspace{3pt}}c@{\hspace{6pt}}L@{\hspace{3pt}}}
+  \no & \code{cambios} · \code{update} · \code{asdf} · \code{ahora si}\newline
+        {\color{black!55}No indica qué cambió ni por qué} \\
+  \si & \code{fix: entrena sin el conjunto de prueba} ·
+        \code{feat: anade el cargador de CSV}\newline
+        {\color{black!55}Indica qué cambió y por qué} \\
+\end{tabularx}}
+\end{minipage}
+
+\subsection*{Formato Conventional Commits 1.0.0}
+\begin{center}
+{\ttfamily\textcolor{okc}{<tipo>}\textcolor{stgc}{[(ámbito)]}: <descripción>}
+\end{center}
+\noindent{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L@{\hspace{5pt}}L@{\hspace{5pt}}L@{}}
+  \textcolor{okc}{\bfseries tipo} clase de cambio &
+  \textcolor{stgc}{\bfseries ámbito} parte afectada, opcional &
+  \textbf{descripción} acción en presente \\
+\end{tabularx}}\par\smallskip
+{\footnotesize El \textbf{cuerpo} es opcional, se añade con un segundo
+\code{-m} y expone el motivo del cambio.}
+\begin{term}
+git commit -m "fix(modelo): entrena sin el conjunto de prueba" \
+  -m "Ajustaba con el conjunto de prueba y eso sesgaba la métrica."
+\end{term}
+
+\subsection*{Tipos}
+\noindent{\footnotesize
+\rowcolors{1}{primary!6}{white}%
+\begin{tabularx}{\linewidth}{@{\hspace{3pt}}l@{\hspace{6pt}}L@{\hspace{6pt}}l@{\hspace{6pt}}L@{\hspace{3pt}}}
+  \code{feat}     & Funcionalidad nueva                        & \code{perf}  & Mejora de rendimiento \\
+  \code{fix}      & Corrección de un error                     & \code{test}  & Pruebas \\
+  \code{docs}     & Documentación                              & \code{ci}    & Integración continua \\
+  \code{style}    & Formato sin cambio de código               & \code{chore} & Dependencias y limpieza \\
+  \code{refactor} & Reestructuración sin cambio funcional      &              & \\
+\end{tabularx}}
+
+\subsection*{Buenas prácticas}
+\begin{topics}
+  \item \textbf{Modo imperativo} en la descripción, «añade» en lugar de «añadido».
+  \item \textbf{Título breve}, de unos 50 caracteres.
+  \item \textbf{Un commit por cada cambio lógico}.
+  \item \textbf{Referencia al issue} correspondiente.
+  \item \textbf{Línea en blanco} entre el título y el cuerpo.
+\end{topics}
+
+\subsection*{Ejemplo de un buen commit}
+\begin{term}
+@-git commit -m "cambios"
+\end{term}
+\begin{term}
+@+git commit -m "feat(modelo): anade early stopping" \
+@+  -m "El modelo sobreajustaba a partir de la epoca 30. \
+Detener por val_loss recorta el entrenamiento a la mitad."
+\end{term}
+
+\noindent\begin{minipage}{\linewidth}
+\begin{tcolorbox}[aperturebox, colback=primary!6, colframe=signal,
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  before skip=4pt, after skip=2pt, halign=center]
+\apertureInline{1.85cm}{primary}\par\vspace{5pt}
+{\footnotesize\color{primary!85!black}\textbf{Semillero de data science e IA.}\\
+Explora lo que hacemos en nuestra web.}\par\vspace{4pt}
+\href{https://aperture-systems-lab.github.io/aperture/links/}%
+{\ttfamily\scriptsize\color{primary!85!black}aperture-systems-lab.github.io/aperture/links/}
+\end{tcolorbox}
+\end{minipage}
+
+\label{ultima}
+\end{multicols}
+\end{document}
